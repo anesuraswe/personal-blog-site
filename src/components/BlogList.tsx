@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Box,
@@ -14,12 +14,16 @@ import { posts } from "../data/posts";
 import BlogCard from "./BlogCard";
 import CategoryFilter from "./CategoryFilter";
 import SearchBar from "./SearchBar";
+import Pagination from "./Pagination";
+
+const POSTS_PER_PAGE = 3;
 
 const BlogList = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // Filter posts by category and title
+  // Filter posts by category and search keyword
   const filteredPosts = posts.filter((post) => {
     const matchesCategory =
       selectedCategory === "All" ||
@@ -31,6 +35,26 @@ const BlogList = () => {
 
     return matchesCategory && matchesSearch;
   });
+
+  // Calculate total pages
+  const totalPages = Math.ceil(
+    filteredPosts.length / POSTS_PER_PAGE
+  );
+
+  // Calculate the starting and ending indexes
+  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+  const endIndex = startIndex + POSTS_PER_PAGE;
+
+  // Get posts for the current page
+  const currentPosts = filteredPosts.slice(
+    startIndex,
+    endIndex
+  );
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, searchTerm]);
 
   return (
     <Box id="articles" bg="#F5F5F5" py={20}>
@@ -63,10 +87,7 @@ const BlogList = () => {
           </Box>
 
           {/* Search and Category Filter */}
-          <VStack
-            align="stretch"
-            gap={5}
-          >
+          <VStack align="stretch" gap={5}>
             <Box maxW={{ base: "100%", md: "400px" }}>
               <SearchBar
                 searchTerm={searchTerm}
@@ -80,13 +101,18 @@ const BlogList = () => {
             />
           </VStack>
 
+          {/* Results Count */}
+          <Text color="gray.600" fontSize="sm">
+            Showing {currentPosts.length} of {filteredPosts.length} articles
+          </Text>
+
           {/* Blog Cards */}
-          {filteredPosts.length > 0 ? (
+          {currentPosts.length > 0 ? (
             <SimpleGrid
               columns={{ base: 1, md: 2, lg: 3 }}
               gap={6}
             >
-              {filteredPosts.map((post) => (
+              {currentPosts.map((post) => (
                 <BlogCard key={post.id} post={post} />
               ))}
             </SimpleGrid>
@@ -101,6 +127,13 @@ const BlogList = () => {
               </Text>
             </Box>
           )}
+
+          {/* Pagination */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </VStack>
       </Container>
     </Box>
