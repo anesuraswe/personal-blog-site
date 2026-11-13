@@ -49,24 +49,25 @@ const Hero = () => {
             </Text>
 
             <Flex gap={4} wrap="wrap">
-              <Button
-                as="a"
-                bg="#111111"
-                
-                size="lg"
-                px={7}
-                borderRadius="full"
-                _hover={{
-                  bg: "#FACC15",
-                  color: "#111111",
-                }}
-              >
-                <Link color='white' _hover={{
-                  bg: "#FACC15",
-                  color: "#111111",
-                }} href="#articles">Explore</Link>
-                <ArrowUpRight size={18} />
-              </Button>
+              
+<Button
+  asChild
+  bg="#111111"
+  color="white"
+  size="lg"
+  px={7}
+  borderRadius="full"
+  _hover={{
+    bg: "#FACC15",
+    color: "#111111",
+  }}
+>
+  <Link href="#articles">
+    Explore
+    <ArrowUpRight size={18} />
+  </Link>
+</Button>
+
 
               <Button
                 as="a"
