@@ -37,7 +37,7 @@ const Hero = () => {
               Thoughts,
               <br />
               Ideas &
-              <Box as="span" color="#D4A900">
+              <Box as="span" color="#e2b709">
                 {" "}
                 Stories.
               </Box>
@@ -64,7 +64,7 @@ const Hero = () => {
                 <Link color='white' _hover={{
                   bg: "#FACC15",
                   color: "#111111",
-                }} href="#about">About Me</Link>
+                }} href="#articles">Explore</Link>
                 <ArrowUpRight size={18} />
               </Button>
 
