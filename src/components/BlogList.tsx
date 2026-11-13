@@ -13,17 +13,24 @@ import {
 import { posts } from "../data/posts";
 import BlogCard from "./BlogCard";
 import CategoryFilter from "./CategoryFilter";
+import SearchBar from "./SearchBar";
 
 const BlogList = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Filter posts based on the selected category
-  const filteredPosts =
-    selectedCategory === "All"
-      ? posts
-      : posts.filter(
-          (post) => post.category === selectedCategory
-        );
+  // Filter posts by category and title
+  const filteredPosts = posts.filter((post) => {
+    const matchesCategory =
+      selectedCategory === "All" ||
+      post.category === selectedCategory;
+
+    const matchesSearch = post.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase().trim());
+
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <Box id="articles" bg="#F5F5F5" py={20}>
@@ -55,27 +62,44 @@ const BlogList = () => {
             </Text>
           </Box>
 
-          {/* Category Filter */}
-          <CategoryFilter
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
-          />
+          {/* Search and Category Filter */}
+          <VStack
+            align="stretch"
+            gap={5}
+          >
+            <Box maxW={{ base: "100%", md: "400px" }}>
+              <SearchBar
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+              />
+            </Box>
+
+            <CategoryFilter
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+            />
+          </VStack>
 
           {/* Blog Cards */}
-          <SimpleGrid
-            columns={{ base: 1, md: 2, lg: 3 }}
-            gap={6}
-          >
-            {filteredPosts.map((post) => (
-              <BlogCard key={post.id} post={post} />
-            ))}
-          </SimpleGrid>
+          {filteredPosts.length > 0 ? (
+            <SimpleGrid
+              columns={{ base: 1, md: 2, lg: 3 }}
+              gap={6}
+            >
+              {filteredPosts.map((post) => (
+                <BlogCard key={post.id} post={post} />
+              ))}
+            </SimpleGrid>
+          ) : (
+            <Box textAlign="center" py={16}>
+              <Heading size="lg" color="#111111" mb={2}>
+                No articles found.
+              </Heading>
 
-          {/* Empty State */}
-          {filteredPosts.length === 0 && (
-            <Text textAlign="center" py={10} color="gray.600">
-              No articles found in this category.
-            </Text>
+              <Text color="gray.600">
+                Try another keyword or select a different category.
+              </Text>
+            </Box>
           )}
         </VStack>
       </Container>
