@@ -1,12 +1,56 @@
 
+import {
+  Box,
+  Container,
+  Heading,
+  SimpleGrid,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+
+import { posts } from "../data/posts";
+import BlogCard from "./BlogCard";
 
 const BlogList = () => {
   return (
-    <div>
-      BlogList.tsx
-      
-    </div>
-  )
-}
+    <Box id="articles" bg="#F5F5F5" py={20}>
+      <Container maxW="1200px">
+        <VStack align="stretch" gap={10}>
+          {/* Section Heading */}
+          <Box>
+            <Text
+              color="#D4A900"
+              fontWeight="bold"
+              fontSize="sm"
+              letterSpacing="widest"
+            >
+              THE BLOG
+            </Text>
 
-export default BlogList
+            <Heading
+              fontSize={{ base: "3xl", md: "5xl" }}
+              color="#111111"
+              mt={2}
+            >
+              Latest Articles<span style={{ color: "#FACC15" }}>.</span>
+            </Heading>
+
+            <Text color="gray.600" mt={3} maxW="550px">
+              Thoughts, discoveries and stories worth sharing.
+              Explore my latest articles below.
+            </Text>
+          </Box>
+
+          {/* Blog Cards */}
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={6}>
+            {posts.map((post) => (
+              <BlogCard key={post.id} post={post} />
+            ))}
+          </SimpleGrid>
+        </VStack>
+      </Container>
+    </Box>
+  );
+};
+
+export default BlogList;
