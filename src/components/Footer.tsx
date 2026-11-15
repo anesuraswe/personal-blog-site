@@ -41,7 +41,7 @@ const Footer = () => {
 
             <HStack gap={4}>
               <Link
-                href="https://github.com"
+                href="https://github.com/anesuraswe"
                 aria-label="GitHub"
                 color="white"
                 _hover={{ color: "#FACC15" }}
@@ -50,7 +50,7 @@ const Footer = () => {
               </Link>
 
               <Link
-                href="https://linkedin.com"
+                href="www.linkedin.com/in/anesu-nyamajiwa-123a49265"
                 aria-label="LinkedIn"
                 color="white"
                 _hover={{ color: "#FACC15" }}
@@ -59,7 +59,7 @@ const Footer = () => {
               </Link>
 
               <Link
-                href="mailto:hello@example.com"
+                href="mailto:ane.uraswe@gmail.com"
                 aria-label="Email"
                 color="white"
                 _hover={{ color: "#FACC15" }}
